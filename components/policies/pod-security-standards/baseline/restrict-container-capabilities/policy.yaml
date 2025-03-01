@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: restrict-container-capabilities
+  labels:
+    app.kubernetes.io/name: restrict-container-capabilities
+    app.kubernetes.io/component: pod-security-standards-baseline
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups:    [""]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["pods"]
+        scope:        "Namespaced"
+      - apiGroups:    ["apps"]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["daemonsets", "deployments", "statefulsets"]
+        scope:        "Namespaced"
+      - apiGroups:    ["batch"]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["cronjobs"]
+        scope:        "Namespaced"
+  variables:
+    - expression: "['AUDIT_WRITE', 'CHOWN', 'DAC_OVERRIDE', 'FOWNER', 'FSETID', 'KILL', 'MKNOD', 'NET_BIND_SERVICE', 'SETFCAP', 'SETGID', 'SETPCAP', 'SETUID', 'SYS_CHROOT']"
+      name: allowedCapabilities
+    - expression: "has(object.spec.template) ? (has(object.spec.template.spec.containers) ? object.spec.template.spec.containers : []) + (has(object.spec.template.spec.initContainers) ? object.spec.template.spec.initContainers : []) + (has(object.spec.template.spec.ephemeralContainers) ? object.spec.template.spec.ephemeralContainers : []) : []"
+      name: controllerContainer
+    - expression: "has(object.spec.jobTemplate) ? (has(object.spec.jobTemplate.spec.template.spec.containers) ? object.spec.jobTemplate.spec.template.spec.containers : []) + (has(object.spec.jobTemplate.spec.template.spec.initContainers) ? object.spec.jobTemplate.spec.template.spec.initContainers : []) + (has(object.spec.jobTemplate.spec.template.spec.ephemeralContainers) ? object.spec.jobTemplate.spec.template.spec.ephemeralContainers : []) : []"
+      name: cronJobContainers
+    - expression: "(has(object.spec.containers) ? object.spec.containers : []) + (has(object.spec.initContainers) ? object.spec.initContainers : []) + (has(object.spec.ephemeralContainers) ? object.spec.ephemeralContainers : [])"
+      name: podContainers
+    - expression: "variables.controllerContainer + variables.cronJobContainers + variables.podContainers"
+      name: allContainers
+  validations:
+    - expression: >-
+        variables.allContainers.all(container,
+        container.?securityContext.?capabilities.?add.orValue([]).all(capability, 
+        capability == '' || capability in variables.allowedCapabilities))
+      messageExpression: >-
+        "'Any capabilities added beyond the allowed list (' + string(variables.allowedCapabilities) + ') are disallowed.'"
+      reason: Invalid
+  auditAnnotations:
+    - key: name
+      valueExpression: object.metadata.name

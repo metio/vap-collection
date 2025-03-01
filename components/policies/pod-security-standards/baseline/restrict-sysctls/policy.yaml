@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: restrict-sysctls
+  labels:
+    app.kubernetes.io/name: restrict-sysctls
+    app.kubernetes.io/component: pod-security-standards-baseline
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups:   [""]
+        apiVersions: ["v1"]
+        operations:  ["CREATE", "UPDATE"]
+        resources:   ["pods"]
+        scope:       "Namespaced"
+  variables:
+    - expression: "['kernel.shm_rmid_forced', 'net.ipv4.ip_local_port_range', 'net.ipv4.ip_unprivileged_port_start', 'net.ipv4.tcp_syncookies', 'net.ipv4.ping_group_range']"
+      name: allowedSysctls
+  validations:
+    - expression: >-
+        object.spec.?securityContext.?sysctls.orValue([]).all(sysctl, sysctl == '' ||
+        has(sysctl.name) && sysctl.name in variables.allowedSysctls)
+      messageExpression: >-
+        "'Any sysctls added beyond the allowed list (' + string(variables.allowedSysctls) + ') are disallowed.'"
+      reason: Invalid
+  auditAnnotations:
+    - key: name
+      valueExpression: object.metadata.name

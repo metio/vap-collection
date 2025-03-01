@@ -1,0 +1,155 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gooddeployment01
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: container01
+          image: dummyimagename
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gooddeployment02
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: container01
+          image: dummyimagename
+      securityContext:
+        sysctls:
+          - name: kernel.shm_rmid_forced
+            value: "2"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gooddeployment03
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: container01
+          image: dummyimagename
+      securityContext:
+        sysctls:
+          - name: net.ipv4.ip_local_port_range
+            value: "31000    60999"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gooddeployment04
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: container01
+          image: dummyimagename
+      securityContext:
+        sysctls:
+          - name: net.ipv4.ip_unprivileged_port_start
+            value: "2048"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gooddeployment05
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: container01
+          image: dummyimagename
+      securityContext:
+        sysctls:
+          - name: net.ipv4.tcp_syncookies
+            value: "0"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gooddeployment06
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: container01
+          image: dummyimagename
+      securityContext:
+        sysctls:
+          - name: net.ipv4.ping_group_range
+            value: "1   0"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gooddeployment07
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: container01
+          image: dummyimagename
+      securityContext:
+        sysctls:
+          - name: net.ipv4.ip_unprivileged_port_start
+            value: "2048"
+          - name: net.ipv4.ping_group_range
+            value: "1   0"
+---

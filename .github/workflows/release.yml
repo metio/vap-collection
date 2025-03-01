@@ -1,0 +1,88 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+name: Automated Release
+on:
+  schedule:
+    - cron: 47 3 * * MON
+  workflow_dispatch:
+jobs:
+  release:
+    name: Perform Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - id: checkout
+        name: Clone Git Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: last_release
+        name: Fetch last release info
+        run: echo "tag=$(gh release view --json tagName --jq '.tagName')" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - id: commits
+        name: Count Commits
+        run: echo "count=$(git rev-list --count ${{ steps.last_release.outputs.tag }}..HEAD -- base components overlays)" >> $GITHUB_OUTPUT
+      - id: release
+        name: Create Release Version
+        if: steps.commits.outputs.count > 0
+        run: echo "version=$(date +'%Y.%-m.%-d')" >> $GITHUB_OUTPUT
+      - id: versioning
+        name: Modify release version
+        if: steps.commits.outputs.count > 0
+        run: "sed -i -e 's|app.kubernetes.io/version: .*|app.kubernetes.io/version: ${{ steps.release.outputs.version }}|' components/kustomizations/common-labels/kustomization.yaml"
+      - id: commit_changes
+        name: Commit Changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Version ${{ steps.release.outputs.version }}
+      - id: create_release
+        name: Create Release
+        if: steps.commits.outputs.count > 0
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.release.outputs.version }}
+          name: ${{ steps.release.outputs.version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: false
+          prerelease: false
+          body: |
+            ## Usage
+            
+            Specify one or more of the available overlays in your local `kustomization.yaml`:
+            
+            ```yaml
+            apiVersion: kustomize.config.k8s.io/v1beta1
+            kind: Kustomization
+            resources:
+              - https://github.com/metio/vap-collection//overlays/all/?ref=${{ steps.release.outputs.version }}
+              - https://github.com/metio/vap-collection//overlays/pod-security-standards-baseline/?ref=${{ steps.release.outputs.version }}
+              - https://github.com/metio/vap-collection//overlays/pod-security-standards-restricted/?ref=${{ steps.release.outputs.version }}
+            ```
+            
+            Check the [migration guide](https://github.com/metio/vap-collection/blob/main/MIGRATIONS.md) for any required actions on your part.
+          generate_release_notes: true
+      - id: mail
+        name: Send Mail
+        if: steps.commits.outputs.count > 0
+        uses: dawidd6/action-send-mail@v4
+        with:
+          server_address: ${{ secrets.MAIL_SERVER }}
+          server_port: ${{ secrets.MAIL_PORT }}
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: ${{ github.event.repository.name }} version ${{ steps.release.outputs.version }} published
+          body: See https://github.com/metio/${{ github.event.repository.name }}/releases/tag/${{ steps.release.outputs.version }} for details.
+          to: ${{ secrets.MAIL_RECIPIENT }}
+          from: ${{ secrets.MAIL_SENDER }}
+      - id: matrix
+        name: Send Matrix Message
+        if: steps.commits.outputs.count > 0
+        uses: s3krit/matrix-message-action@v0.0.3
+        with:
+          room_id: ${{ secrets.MATRIX_ROOM_ID }}
+          access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
+          message: ${{ github.event.repository.name }} version [${{ steps.release.outputs.version }}](https://github.com/metio/${{ github.event.repository.name }}/releases/tag/${{ steps.release.outputs.version }}) published
+          server: ${{ secrets.MATRIX_SERVER }}

@@ -1,0 +1,134 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob01
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob02
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+          securityContext:
+            sysctls:
+              - name: kernel.shm_rmid_forced
+                value: "2"
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob03
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+          securityContext:
+            sysctls:
+              - name: net.ipv4.ip_local_port_range
+                value: "31000    60999"
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob04
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+          securityContext:
+            sysctls:
+              - name: net.ipv4.ip_unprivileged_port_start
+                value: "2048"
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob05
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+          securityContext:
+            sysctls:
+              - name: net.ipv4.tcp_syncookies
+                value: "0"
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob06
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+          securityContext:
+            sysctls:
+              - name: net.ipv4.ping_group_range
+                value: "1   0"
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob07
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+          securityContext:
+            sysctls:
+              - name: net.ipv4.ip_unprivileged_port_start
+                value: "2048"
+              - name: net.ipv4.ping_group_range
+                value: "1   0"
+---

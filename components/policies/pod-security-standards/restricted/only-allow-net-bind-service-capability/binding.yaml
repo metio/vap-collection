@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: only-allow-net-bind-service-capability
+  labels:
+    app.kubernetes.io/name: only-allow-net-bind-service-capability
+    app.kubernetes.io/component: pod-security-standards-baseline
+spec:
+  policyName: only-allow-net-bind-service-capability
+  validationActions: [Deny]

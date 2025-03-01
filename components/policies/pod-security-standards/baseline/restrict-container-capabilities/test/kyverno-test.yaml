@@ -1,0 +1,82 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: cli.kyverno.io/v1alpha1
+kind: Test
+metadata:
+  name: restrict-container-capabilities
+policies:
+  - ../policy.yaml
+resources:
+  - cronjob-bad.yaml
+  - cronjob-good.yaml
+  - deployment-bad.yaml
+  - deployment-good.yaml
+  - pod-bad.yaml
+  - pod-good.yaml
+results:
+  - kind: CronJob
+    policy: restrict-container-capabilities
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badcronjob01
+      - badcronjob02
+      - badcronjob03
+      - badcronjob04
+      - badcronjob05
+      - badcronjob06
+    result: fail
+  - kind: Deployment
+    policy: restrict-container-capabilities
+    isValidatingAdmissionPolicy: true
+    resources:
+      - baddeployment01
+      - baddeployment02
+      - baddeployment03
+      - baddeployment04
+      - baddeployment05
+      - baddeployment06
+    result: fail
+  - kind: Pod
+    policy: restrict-container-capabilities
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badpod01
+      - badpod02
+      - badpod03
+      - badpod04
+      - badpod05
+      - badpod06
+    result: fail
+  - kind: CronJob
+    policy: restrict-container-capabilities
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodcronjob01
+      - goodcronjob02
+      - goodcronjob03
+      - goodcronjob04
+      - goodcronjob05
+      - goodcronjob06
+    result: pass
+  - kind: Deployment
+    policy: restrict-container-capabilities
+    isValidatingAdmissionPolicy: true
+    resources:
+      - gooddeployment01
+      - gooddeployment02
+      - gooddeployment03
+      - gooddeployment04
+      - gooddeployment05
+      - gooddeployment06
+    result: pass
+  - kind: Pod
+    policy: restrict-container-capabilities
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodpod01
+      - goodpod02
+      - goodpod03
+      - goodpod04
+      - goodpod05
+      - goodpod06
+    result: pass

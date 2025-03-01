@@ -1,0 +1,128 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob01
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob02
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+              securityContext:
+                capabilities:
+                  add:
+                    - SETGID
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob03
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+              securityContext:
+                capabilities:
+                  add:
+                    - DAC_OVERRIDE
+            - name: container02
+              image: dummyimagename
+              securityContext:
+                capabilities:
+                  add:
+                    - SETGID
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob04
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: initcontainer01
+              image: dummyimagename
+          containers:
+            - name: container01
+              image: dummyimagename
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob05
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: initcontainer01
+              image: dummyimagename
+              securityContext:
+                capabilities:
+                  add:
+                    - DAC_OVERRIDE
+          containers:
+            - name: container01
+              image: dummyimagename
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob06
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: initcontainer01
+              image: dummyimagename
+              securityContext:
+                capabilities:
+                  add:
+                    - DAC_OVERRIDE
+          containers:
+            - name: container01
+              image: dummyimagename
+              securityContext:
+                capabilities:
+                  add:
+                    - SETGID
+---

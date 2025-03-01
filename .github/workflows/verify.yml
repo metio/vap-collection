@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+name: Verify Commits
+on:
+  pull_request:
+    branches: [ main ]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Kyverno CLI
+        uses: kyverno/action-install-cli@v0.2.0
+        with:
+          release: v1.13.4
+      - name: Check changed policies
+        run: |
+          all_good=yes
+          for policy in $(git diff --name-only origin/main -- ./components/policies | xargs --no-run-if-empty -I{} dirname {} | sort --unique); do
+            echo "trying to test ${policy}"
+            if ! kyverno test "${policy}/test"; then
+              all_good=no
+            fi
+          done
+          if [ "${all_good}" == no ]; then
+            echo 'we encountered test failures'
+            exit 1
+          fi

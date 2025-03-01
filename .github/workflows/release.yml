@@ -27,11 +27,11 @@ jobs:
         run: echo "count=$(git rev-list --count ${{ steps.last_release.outputs.tag }}..HEAD -- base components overlays)" >> $GITHUB_OUTPUT
       - id: release
         name: Create Release Version
-        if: steps.commits.outputs.count > 0
+        if: steps.commits.outputs.count > 0 || steps.last_release.outputs.tag == ''
         run: echo "version=$(date +'%Y.%-m.%-d')" >> $GITHUB_OUTPUT
       - id: versioning
         name: Modify release version
-        if: steps.commits.outputs.count > 0
+        if: steps.commits.outputs.count > 0 || steps.last_release.outputs.tag == ''
         run: "sed -i -e 's|app.kubernetes.io/version: .*|app.kubernetes.io/version: ${{ steps.release.outputs.version }}|' components/kustomizations/common-labels/kustomization.yaml"
       - id: commit_changes
         name: Commit Changes
@@ -40,7 +40,7 @@ jobs:
           commit_message: Version ${{ steps.release.outputs.version }}
       - id: create_release
         name: Create Release
-        if: steps.commits.outputs.count > 0
+        if: steps.commits.outputs.count > 0 || steps.last_release.outputs.tag == ''
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.release.outputs.version }}
@@ -66,7 +66,7 @@ jobs:
           generate_release_notes: true
       - id: mail
         name: Send Mail
-        if: steps.commits.outputs.count > 0
+        if: steps.commits.outputs.count > 0 || steps.last_release.outputs.tag == ''
         uses: dawidd6/action-send-mail@v4
         with:
           server_address: ${{ secrets.MAIL_SERVER }}
@@ -79,7 +79,7 @@ jobs:
           from: ${{ secrets.MAIL_SENDER }}
       - id: matrix
         name: Send Matrix Message
-        if: steps.commits.outputs.count > 0
+        if: steps.commits.outputs.count > 0 || steps.last_release.outputs.tag == ''
         uses: s3krit/matrix-message-action@v0.0.3
         with:
           room_id: ${{ secrets.MATRIX_ROOM_ID }}

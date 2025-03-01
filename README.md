@@ -6,17 +6,12 @@ These policies are based on [kyverno/policies](https://github.com/kyverno/polici
 
 ## Installation
 
-All policies are managed with kustomize and can be installed by referencing overlays and/or components.
+All policies are managed with kustomize and can be installed by referencing overlays and/or components. Check the [releases page](https://github.com/metio/vap-collection/releases) for available versions.
 
-```yaml
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
+### Overlays
 
-resources:
-  # 'all' includes all existing policies
-  - https://github.com/metio/vap-collection//overlays/all/?ref=<VERSION>
-  # 'pod-security-standards-baseline' contains policies for https://kubernetes.io/docs/concepts/security/pod-security-standards/#baseline
-  - https://github.com/metio/vap-collection//overlays/pod-security-standards-baseline/?ref=<VERSION>
-  # 'pod-security-standards-restricted' contains policies for https://kubernetes.io/docs/concepts/security/pod-security-standards/#restricted
-  - https://github.com/metio/vap-collection//overlays/pod-security-standards-restricted/?ref=<VERSION>
-```
+The following overlays are available in this repository. Feel free to enable as many of them as you like!
+
+- `all`: Contains all policies in this repository
+- `pod-security-standards-baseline`: Contains policies for the PSS `baseline`
+- `pod-security-standards-restricted`: Contains policies for the PSS `restricted`

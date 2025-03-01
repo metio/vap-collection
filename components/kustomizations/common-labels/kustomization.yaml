@@ -4,6 +4,6 @@ apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 labels:
   - pairs:
-      app.kubernetes.io/version: development
+      app.kubernetes.io/version: 2025.3.1
       app.kubernetes.io/part-of: vap-collection
       app.kubernetes.io/managed-by: kustomize

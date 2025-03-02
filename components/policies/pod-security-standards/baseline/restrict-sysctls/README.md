@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: The vap-collection Authors
+SPDX-License-Identifier: Apache-2.0
+ -->
+
 # restrict-sysctls
 
 Verifies that pods can only use the following sysctls:

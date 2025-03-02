@@ -29,21 +29,29 @@ spec:
   variables:
     - expression: "['AUDIT_WRITE', 'CHOWN', 'DAC_OVERRIDE', 'FOWNER', 'FSETID', 'KILL', 'MKNOD', 'NET_BIND_SERVICE', 'SETFCAP', 'SETGID', 'SETPCAP', 'SETUID', 'SYS_CHROOT']"
       name: allowedCapabilities
-    - expression: "has(object.spec.template) ? (has(object.spec.template.spec.containers) ? object.spec.template.spec.containers : []) + (has(object.spec.template.spec.initContainers) ? object.spec.template.spec.initContainers : []) + (has(object.spec.template.spec.ephemeralContainers) ? object.spec.template.spec.ephemeralContainers : []) : []"
+    - expression:
+        object.spec.?template.?spec.?containers.orValue([]) +
+        object.spec.?template.?spec.?initContainers.orValue([]) +
+        object.spec.?template.?spec.?ephemeralContainers.orValue([])
       name: controllerContainer
-    - expression: "has(object.spec.jobTemplate) ? (has(object.spec.jobTemplate.spec.template.spec.containers) ? object.spec.jobTemplate.spec.template.spec.containers : []) + (has(object.spec.jobTemplate.spec.template.spec.initContainers) ? object.spec.jobTemplate.spec.template.spec.initContainers : []) + (has(object.spec.jobTemplate.spec.template.spec.ephemeralContainers) ? object.spec.jobTemplate.spec.template.spec.ephemeralContainers : []) : []"
+    - expression:
+        object.spec.?jobTemplate.?spec.?template.?spec.?containers.orValue([]) +
+        object.spec.?jobTemplate.?spec.?template.?spec.?initContainers.orValue([]) +
+        object.spec.?jobTemplate.?spec.?template.?spec.?ephemeralContainers.orValue([])
       name: cronJobContainers
-    - expression: "(has(object.spec.containers) ? object.spec.containers : []) + (has(object.spec.initContainers) ? object.spec.initContainers : []) + (has(object.spec.ephemeralContainers) ? object.spec.ephemeralContainers : [])"
+    - expression:
+        object.spec.?containers.orValue([]) +
+        object.spec.?initContainers.orValue([]) +
+        object.spec.?ephemeralContainers.orValue([])
       name: podContainers
-    - expression: "variables.controllerContainer + variables.cronJobContainers + variables.podContainers"
+    - expression: variables.controllerContainer + variables.cronJobContainers + variables.podContainers
       name: allContainers
   validations:
-    - expression: >-
+    - expression:
         variables.allContainers.all(container,
-        container.?securityContext.?capabilities.?add.orValue([]).all(capability, 
-        capability == '' || capability in variables.allowedCapabilities))
-      messageExpression: >-
-        "'Any capabilities added beyond the allowed list (' + string(variables.allowedCapabilities) + ') are disallowed.'"
+          container.?securityContext.?capabilities.?add.orValue([]).all(capability, 
+            capability in variables.allowedCapabilities))
+      messageExpression: "'Any capabilities added beyond the allowed list (' + variables.allowedCapabilities.join(', ') + ') are disallowed.'"
       reason: Invalid
   auditAnnotations:
     - key: name

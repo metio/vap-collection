@@ -28,4 +28,4 @@ spec:
       reason: Invalid
   auditAnnotations:
     - key: name
-      valueExpression: object.metadata.name
+      valueExpression: string(object.metadata.name)

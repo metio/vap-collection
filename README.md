@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: The vap-collection Authors
+SPDX-License-Identifier: Apache-2.0
+ -->
+
 # VAP Collection
 
 This repository contains a collection of [ValidatingAdmissionPolicies](https://kubernetes.io/docs/reference/access-authn-authz/validating-admission-policy/) for Kubernetes >= 1.30.

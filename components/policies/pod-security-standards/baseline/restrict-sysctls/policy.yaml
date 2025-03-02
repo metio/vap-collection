@@ -11,20 +11,37 @@ spec:
   failurePolicy: Fail
   matchConstraints:
     resourceRules:
-      - apiGroups:   [""]
-        apiVersions: ["v1"]
-        operations:  ["CREATE", "UPDATE"]
-        resources:   ["pods"]
-        scope:       "Namespaced"
+      - apiGroups:    [""]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["pods"]
+        scope:        "Namespaced"
+      - apiGroups:    ["apps"]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["daemonsets", "deployments", "statefulsets"]
+        scope:        "Namespaced"
+      - apiGroups:    ["batch"]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["cronjobs", "jobs"]
+        scope:        "Namespaced"
   variables:
     - expression: "['kernel.shm_rmid_forced', 'net.ipv4.ip_local_port_range', 'net.ipv4.ip_unprivileged_port_start', 'net.ipv4.tcp_syncookies', 'net.ipv4.ping_group_range']"
       name: allowedSysctls
+    - expression: object.spec.?template.?spec.?securityContext.?sysctls.orValue([])
+      name: controllerSysctls
+    - expression: object.spec.?jobTemplate.?spec.?template.?spec.?securityContext.?sysctls.orValue([])
+      name: cronJobSysctls
+    - expression: object.spec.?securityContext.?sysctls.orValue([])
+      name: podSysctls
+    - expression: variables.controllerSysctls + variables.cronJobSysctls + variables.podSysctls
+      name: allUsedSysctls
   validations:
-    - expression: >-
-        object.spec.?securityContext.?sysctls.orValue([]).all(sysctl, sysctl == '' ||
-        has(sysctl.name) && sysctl.name in variables.allowedSysctls)
-      messageExpression: >-
-        "'Any sysctls added beyond the allowed list (' + string(variables.allowedSysctls) + ') are disallowed.'"
+    - expression:
+        variables.allUsedSysctls.all(sysctl,
+          sysctl.name in variables.allowedSysctls)
+      messageExpression: "'Any sysctls added beyond the allowed list (' + variables.allowedSysctls.join(', ') + ') are disallowed.'"
       reason: Invalid
   auditAnnotations:
     - key: name

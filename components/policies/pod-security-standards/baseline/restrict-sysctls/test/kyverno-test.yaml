@@ -11,6 +11,8 @@ resources:
   - cronjob-good.yaml
   - deployment-bad.yaml
   - deployment-good.yaml
+  - job-bad.yaml
+  - job-good.yaml
   - pod-bad.yaml
   - pod-good.yaml
 results:
@@ -20,20 +22,6 @@ results:
     resources:
       - badcronjob01
       - badcronjob02
-    result: fail
-  - kind: Deployment
-    policy: restrict-sysctls
-    isValidatingAdmissionPolicy: true
-    resources:
-      - baddeployment01
-      - baddeployment02
-    result: fail
-  - kind: Pod
-    policy: restrict-sysctls
-    isValidatingAdmissionPolicy: true
-    resources:
-      - badpod01
-      - badpod02
     result: fail
   - kind: CronJob
     policy: restrict-sysctls
@@ -51,6 +39,13 @@ results:
     policy: restrict-sysctls
     isValidatingAdmissionPolicy: true
     resources:
+      - baddeployment01
+      - baddeployment02
+    result: fail
+  - kind: Deployment
+    policy: restrict-sysctls
+    isValidatingAdmissionPolicy: true
+    resources:
       - gooddeployment01
       - gooddeployment02
       - gooddeployment03
@@ -59,6 +54,32 @@ results:
       - gooddeployment06
       - gooddeployment07
     result: pass
+  - kind: Job
+    policy: restrict-sysctls
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badjob01
+      - badjob02
+    result: fail
+  - kind: Job
+    policy: restrict-sysctls
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodjob01
+      - goodjob02
+      - goodjob03
+      - goodjob04
+      - goodjob05
+      - goodjob06
+      - goodjob07
+    result: pass
+  - kind: Pod
+    policy: restrict-sysctls
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badpod01
+      - badpod02
+    result: fail
   - kind: Pod
     policy: restrict-sysctls
     isValidatingAdmissionPolicy: true
@@ -70,4 +91,5 @@ results:
       - goodpod05
       - goodpod06
       - goodpod07
+      - goodpod08
     result: pass

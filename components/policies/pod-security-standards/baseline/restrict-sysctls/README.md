@@ -21,11 +21,5 @@ Verifies that pods can only use the following sysctls:
 Use the following query to list all pods in your cluster along with their current sysctls usage:
 
 ```shell
-kubectl get pods --all-namespaces --output go-template --template='{{- range .items -}}
-{{- if and .spec.securityContext .spec.securityContext.sysctls -}}
-{{- if gt (len .spec.securityContext.sysctls) 0 }}
-{{ .metadata.namespace }}/{{ .metadata.name }}: {{ range $index, $sysctl := .spec.securityContext.sysctls }}{{ if $index }}, {{ end }}{{ $sysctl.name }}{{ end }}
-{{- end -}}
-{{- end -}}
-{{- end -}}'
+kubectl get pods --all-namespaces --output yaml | yq '.items[] | select(.spec.securityContext.sysctls | length > 0) | .metadata.namespace + "/" + .metadata.name + ": " + ([.spec.securityContext.sysctls[] | .name] | join(", "))'
 ```

@@ -11,6 +11,8 @@ resources:
   - cronjob-good.yaml
   - deployment-bad.yaml
   - deployment-good.yaml
+  - job-bad.yaml
+  - job-good.yaml
   - pod-bad.yaml
   - pod-good.yaml
 results:
@@ -28,36 +30,6 @@ results:
       - badcronjob08
       - badcronjob09
       - badcronjob10
-    result: fail
-  - kind: Deployment
-    policy: only-allow-net-bind-service-capability
-    isValidatingAdmissionPolicy: true
-    resources:
-      - baddeployment01
-      - baddeployment02
-      - baddeployment03
-      - baddeployment04
-      - baddeployment05
-      - baddeployment06
-      - baddeployment07
-      - baddeployment08
-      - baddeployment09
-      - baddeployment10
-    result: fail
-  - kind: Pod
-    policy: only-allow-net-bind-service-capability
-    isValidatingAdmissionPolicy: true
-    resources:
-      - badpod01
-      - badpod02
-      - badpod03
-      - badpod04
-      - badpod05
-      - badpod06
-      - badpod07
-      - badpod08
-      - badpod09
-      - badpod10
     result: fail
   - kind: CronJob
     policy: only-allow-net-bind-service-capability
@@ -78,6 +50,21 @@ results:
     policy: only-allow-net-bind-service-capability
     isValidatingAdmissionPolicy: true
     resources:
+      - baddeployment01
+      - baddeployment02
+      - baddeployment03
+      - baddeployment04
+      - baddeployment05
+      - baddeployment06
+      - baddeployment07
+      - baddeployment08
+      - baddeployment09
+      - baddeployment10
+    result: fail
+  - kind: Deployment
+    policy: only-allow-net-bind-service-capability
+    isValidatingAdmissionPolicy: true
+    resources:
       - gooddeployment01
       - gooddeployment02
       - gooddeployment03
@@ -89,6 +76,51 @@ results:
       - gooddeployment09
       - gooddeployment10
     result: pass
+  - kind: Job
+    policy: only-allow-net-bind-service-capability
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badjob01
+      - badjob02
+      - badjob03
+      - badjob04
+      - badjob05
+      - badjob06
+      - badjob07
+      - badjob08
+      - badjob09
+      - badjob10
+    result: fail
+  - kind: Job
+    policy: only-allow-net-bind-service-capability
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodjob01
+      - goodjob02
+      - goodjob03
+      - goodjob04
+      - goodjob05
+      - goodjob06
+      - goodjob07
+      - goodjob08
+      - goodjob09
+      - goodjob10
+    result: pass
+  - kind: Pod
+    policy: only-allow-net-bind-service-capability
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badpod01
+      - badpod02
+      - badpod03
+      - badpod04
+      - badpod05
+      - badpod06
+      - badpod07
+      - badpod08
+      - badpod09
+      - badpod10
+    result: fail
   - kind: Pod
     policy: only-allow-net-bind-service-capability
     isValidatingAdmissionPolicy: true

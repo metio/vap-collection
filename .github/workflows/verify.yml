@@ -20,9 +20,11 @@ jobs:
         run: |
           all_good=yes
           for policy in $(git diff --name-only origin/main -- ./components/policies | xargs --no-run-if-empty -I{} dirname {} | sort --unique); do
-            echo "trying to test ${policy}"
-            if ! kyverno test "${policy}/test"; then
-              all_good=no
+            if [ -f "${policy}/test/kyverno-test.yaml" ]; then
+              echo "testing ${policy}"
+              if ! kyverno test "${policy}/test"; then
+                all_good=no
+              fi
             fi
           done
           if [ "${all_good}" == no ]; then

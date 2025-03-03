@@ -24,7 +24,7 @@ spec:
       - apiGroups:    ["batch"]
         apiVersions:  ["v1"]
         operations:   ["CREATE", "UPDATE"]
-        resources:    ["cronjobs"]
+        resources:    ["cronjobs", "jobs"]
         scope:        "Namespaced"
   variables:
     - expression: "['AUDIT_WRITE', 'CHOWN', 'DAC_OVERRIDE', 'FOWNER', 'FSETID', 'KILL', 'MKNOD', 'NET_BIND_SERVICE', 'SETFCAP', 'SETGID', 'SETPCAP', 'SETUID', 'SYS_CHROOT']"

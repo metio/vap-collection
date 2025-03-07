@@ -11,5 +11,6 @@ components:
   - ../../components/policies/pod-security-standards/baseline/ban-host-pid-usage
   - ../../components/policies/pod-security-standards/baseline/ban-privileged-containers
   - ../../components/policies/pod-security-standards/baseline/restrict-container-capabilities
+  - ../../components/policies/pod-security-standards/baseline/restrict-seccomp-profile-types
   - ../../components/policies/pod-security-standards/baseline/restrict-sysctls
   - ../../components/kustomizations/common-labels

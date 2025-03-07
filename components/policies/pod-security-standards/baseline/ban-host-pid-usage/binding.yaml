@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: ban-host-pid-usage
+  labels:
+    app.kubernetes.io/name: ban-host-pid-usage
+    app.kubernetes.io/component: pod-security-standards-baseline
+spec:
+  policyName: ban-host-pid-usage
+  validationActions: [Deny]

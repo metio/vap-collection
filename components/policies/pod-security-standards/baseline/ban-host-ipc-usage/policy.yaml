@@ -1,0 +1,45 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: ban-host-ipc-usage
+  labels:
+    app.kubernetes.io/name: ban-host-ipc-usage
+    app.kubernetes.io/component: pod-security-standards-baseline
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups:    [""]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["pods"]
+        scope:        "Namespaced"
+      - apiGroups:    ["apps"]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["daemonsets", "deployments", "statefulsets"]
+        scope:        "Namespaced"
+      - apiGroups:    ["batch"]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["cronjobs", "jobs"]
+        scope:        "Namespaced"
+  variables:
+    - expression: object.spec.?template.?spec.?hostIPC.orValue(false)
+      name: controllerHostIPC
+    - expression: object.spec.?jobTemplate.?spec.?template.?spec.?hostIPC.orValue(false)
+      name: cronJobHostIPC
+    - expression: object.spec.?hostIPC.orValue(false)
+      name: podHostIPC
+  validations:
+    - expression:
+        variables.controllerHostIPC == false &&
+        variables.cronJobHostIPC == false &&
+        variables.podHostIPC == false
+      message: Sharing the host IPC namespace is forbidden. The field spec.hostIPC must be unset or set to 'false'
+      reason: Invalid
+  auditAnnotations:
+    - key: name
+      valueExpression: string(object.metadata.name)

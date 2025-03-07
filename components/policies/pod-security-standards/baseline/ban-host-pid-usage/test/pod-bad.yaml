@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: badpod01
+spec:
+  hostPID: true
+  containers:
+    - name: container01
+      image: dummyimagename
+---

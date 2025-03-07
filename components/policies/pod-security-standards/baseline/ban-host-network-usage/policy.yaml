@@ -1,0 +1,45 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: ban-host-network-usage
+  labels:
+    app.kubernetes.io/name: ban-host-network-usage
+    app.kubernetes.io/component: pod-security-standards-baseline
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups:    [""]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["pods"]
+        scope:        "Namespaced"
+      - apiGroups:    ["apps"]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["daemonsets", "deployments", "statefulsets"]
+        scope:        "Namespaced"
+      - apiGroups:    ["batch"]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["cronjobs", "jobs"]
+        scope:        "Namespaced"
+  variables:
+    - expression: object.spec.?template.?spec.?hostNetwork.orValue(false)
+      name: controllerHostNetwork
+    - expression: object.spec.?jobTemplate.?spec.?template.?spec.?hostNetwork.orValue(false)
+      name: cronJobHostNetwork
+    - expression: object.spec.?hostNetwork.orValue(false)
+      name: podHostNetwork
+  validations:
+    - expression:
+        variables.controllerHostNetwork == false &&
+        variables.cronJobHostNetwork == false &&
+        variables.podHostNetwork == false
+      message: Sharing the host network namespace is forbidden. The field spec.hostNetwork must be unset or set to 'false'
+      reason: Invalid
+  auditAnnotations:
+    - key: name
+      valueExpression: string(object.metadata.name)

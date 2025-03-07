@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: require-disabled-privilege-escalation
+  labels:
+    app.kubernetes.io/name: require-disabled-privilege-escalation
+    app.kubernetes.io/component: pod-security-standards-baseline
+spec:
+  policyName: require-disabled-privilege-escalation
+  validationActions: [Deny]

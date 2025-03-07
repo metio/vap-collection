@@ -1,0 +1,119 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob01
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+              securityContext:
+                allowPrivilegeEscalation: false
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob02
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+              securityContext:
+                allowPrivilegeEscalation: false
+            - name: container02
+              image: dummyimagename
+              securityContext:
+                allowPrivilegeEscalation: false
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob03
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: initcontainer01
+              image: dummyimagename
+              securityContext:
+                allowPrivilegeEscalation: false
+          containers:
+            - name: container01
+              image: dummyimagename
+              securityContext:
+                allowPrivilegeEscalation: false
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob04
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: initcontainer01
+              image: dummyimagename
+              securityContext:
+                allowPrivilegeEscalation: false
+            - name: initcontainer02
+              image: dummyimagename
+              securityContext:
+                allowPrivilegeEscalation: false
+          containers:
+            - name: container01
+              image: dummyimagename
+              securityContext:
+                allowPrivilegeEscalation: false
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob05
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: initcontainer01
+              image: dummyimagename
+              securityContext:
+                allowPrivilegeEscalation: false
+            - name: initcontainer02
+              image: dummyimagename
+              securityContext:
+                allowPrivilegeEscalation: false
+          containers:
+            - name: container01
+              image: dummyimagename
+              securityContext:
+                allowPrivilegeEscalation: false
+            - name: container02
+              image: dummyimagename
+              securityContext:
+                allowPrivilegeEscalation: false
+---

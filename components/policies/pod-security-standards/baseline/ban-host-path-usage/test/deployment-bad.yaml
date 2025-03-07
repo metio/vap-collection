@@ -1,0 +1,57 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: baddeployment01
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: container01
+          image: dummyimagename
+          volumeMounts:
+            - name: udev
+              mountPath: /data
+      volumes:
+        - name: udev
+          hostPath:
+            path: /etc/udev
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: baddeployment02
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: container01
+          image: dummyimagename
+          volumeMounts:
+            - name: udev
+              mountPath: /data
+            - name: temp
+              mountPath: /scratch
+      volumes:
+        - name: temp
+          emptyDir: {}
+        - name: udev
+          hostPath:
+            path: /etc/udev
+---

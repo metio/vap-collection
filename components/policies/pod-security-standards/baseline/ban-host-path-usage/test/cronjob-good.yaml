@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob01
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: goodcronjob02
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+              volumeMounts:
+                - name: temp
+                  mountPath: /scratch
+          volumes:
+            - name: temp
+              emptyDir: {}
+---

@@ -1,0 +1,152 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob01
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+          securityContext:
+            seLinuxOptions:
+              type: spc_t
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob02
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+              securityContext:
+                seLinuxOptions:
+                  type: spc_t
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob03
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+            - name: container02
+              image: dummyimagename
+              securityContext:
+                seLinuxOptions:
+                  type: spc_t
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob04
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+              securityContext:
+                seLinuxOptions:
+                  type: container_kvm_t
+            - name: container02
+              image: dummyimagename
+              securityContext:
+                seLinuxOptions:
+                  type: spc_t
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob05
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: initcontainer01
+              image: dummyimagename
+              securityContext:
+                seLinuxOptions:
+                  type: spc_t
+          containers:
+            - name: container01
+              image: dummyimagename
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob06
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: initcontainer01
+              image: dummyimagename
+            - name: initcontainer02
+              image: dummyimagename
+              securityContext:
+                seLinuxOptions:
+                  type: spc_t
+          containers:
+            - name: container01
+              image: dummyimagename
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob07
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: initcontainer01
+              image: dummyimagename
+              securityContext:
+                seLinuxOptions:
+                  type: container_kvm_t
+            - name: initcontainer02
+              image: dummyimagename
+              securityContext:
+                seLinuxOptions:
+                  type: spc_t
+          containers:
+            - name: container01
+              image: dummyimagename
+---

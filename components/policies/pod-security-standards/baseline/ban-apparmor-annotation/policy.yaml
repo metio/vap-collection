@@ -28,17 +28,17 @@ spec:
         scope:        "Namespaced"
   validations:
     - expression:
-        object.metadata.?annotations.orValue({}).all(key,
+        object.metadata.?annotations.orValue([]).all(key,
           !key.startsWith('container.apparmor.security.beta.kubernetes.io/'))
       message: The annotation 'container.apparmor.security.beta.kubernetes.io' is deprecated. Use the field securityContext.appArmorProfile.type instead
       reason: Invalid
     - expression:
-        object.spec.?template.?metadata.?annotations.orValue({}).all(key,
+        object.spec.?template.?metadata.?annotations.orValue([]).all(key,
           !key.startsWith('container.apparmor.security.beta.kubernetes.io/'))
       message: The annotation 'container.apparmor.security.beta.kubernetes.io' is deprecated. Use the field securityContext.appArmorProfile.type instead
       reason: Invalid
     - expression:
-        object.spec.?jobTemplate.?spec.?template.?metadata.?annotations.orValue({}).all(key,
+        object.spec.?jobTemplate.?spec.?template.?metadata.?annotations.orValue([]).all(key,
           !key.startsWith('container.apparmor.security.beta.kubernetes.io/'))
       message: The annotation 'container.apparmor.security.beta.kubernetes.io' is deprecated. Use the field securityContext.appArmorProfile.type instead
       reason: Invalid

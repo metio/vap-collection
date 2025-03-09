@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: ban-nodeport-services
+  labels:
+    app.kubernetes.io/name: ban-nodeport-services
+    app.kubernetes.io/component: best-practices
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups:    [""]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["services"]
+        scope:        "Namespaced"
+  validations:
+    - expression: object.spec.?type.orValue('ClusterIP') != 'NodePort'
+      message: Services of type NodePort are forbidden
+      reason: Invalid
+  auditAnnotations:
+    - key: name
+      valueExpression: string(object.metadata.name)

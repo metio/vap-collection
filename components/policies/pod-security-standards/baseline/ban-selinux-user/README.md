@@ -5,7 +5,7 @@ SPDX-License-Identifier: Apache-2.0
 
 # ban-selinux-user
 
-Verifies that pods can do not set a SELinux user.
+Verifies that pods do not set a SELinux user.
 
 Use the following query to list all pods in your cluster along with their current SELinux user usage:
 

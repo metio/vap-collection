@@ -3,9 +3,9 @@
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingAdmissionPolicy
 metadata:
-  name: ban-localhost-services
+  name: ban-external-ip-services
   labels:
-    app.kubernetes.io/name: ban-localhost-services
+    app.kubernetes.io/name: ban-external-ip-services
     app.kubernetes.io/component: best-practices
 spec:
   failurePolicy: Fail
@@ -17,8 +17,8 @@ spec:
         resources:    ["services"]
         scope:        "Namespaced"
   validations:
-    - expression: object.spec.?type.orValue('ClusterIP') != 'ExternalName' || object.spec.?externalName.orValue('') != 'localhost'
-      message: Services of type ExternalName are forbidden to point to localhost
+    - expression: "!has(object.spec.externalIPs)"
+      message: Services using external IPs are forbidden
       reason: Invalid
   auditAnnotations:
     - key: name

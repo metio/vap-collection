@@ -8,5 +8,6 @@ components:
   - ../../components/policies/best-practices/ban-external-ip-services
   - ../../components/policies/best-practices/ban-localhost-services
   - ../../components/policies/best-practices/ban-nodeport-services
+  - ../../components/policies/best-practices/ban-pod-automount-sa-token
   - ../../components/policies/best-practices/ban-sa-automount-sa-token
   - ../../components/kustomizations/common-labels

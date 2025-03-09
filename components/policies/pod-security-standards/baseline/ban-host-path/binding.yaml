@@ -3,10 +3,10 @@
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingAdmissionPolicyBinding
 metadata:
-  name: ban-host-ipc-usage
+  name: ban-host-path
   labels:
-    app.kubernetes.io/name: ban-host-ipc-usage
+    app.kubernetes.io/name: ban-host-path
     app.kubernetes.io/component: pod-security-standards-baseline
 spec:
-  policyName: ban-host-ipc-usage
+  policyName: ban-host-path
   validationActions: [Deny]

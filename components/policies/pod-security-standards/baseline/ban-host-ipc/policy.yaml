@@ -3,9 +3,9 @@
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingAdmissionPolicy
 metadata:
-  name: ban-host-ipc-usage
+  name: ban-host-ipc
   labels:
-    app.kubernetes.io/name: ban-host-ipc-usage
+    app.kubernetes.io/name: ban-host-ipc
     app.kubernetes.io/component: pod-security-standards-baseline
 spec:
   failurePolicy: Fail

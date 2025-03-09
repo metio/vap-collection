@@ -3,7 +3,7 @@
 apiVersion: cli.kyverno.io/v1alpha1
 kind: Test
 metadata:
-  name: ban-host-path-usage
+  name: ban-host-network
 policies:
   - ../policy.yaml
 resources:
@@ -17,56 +17,52 @@ resources:
   - pod-good.yaml
 results:
   - kind: CronJob
-    policy: ban-host-path-usage
+    policy: ban-host-network
     isValidatingAdmissionPolicy: true
     resources:
       - badcronjob01
-      - badcronjob02
     result: fail
   - kind: CronJob
-    policy: ban-host-path-usage
+    policy: ban-host-network
     isValidatingAdmissionPolicy: true
     resources:
       - goodcronjob01
       - goodcronjob02
     result: pass
   - kind: Deployment
-    policy: ban-host-path-usage
+    policy: ban-host-network
     isValidatingAdmissionPolicy: true
     resources:
       - baddeployment01
-      - baddeployment02
     result: fail
   - kind: Deployment
-    policy: ban-host-path-usage
+    policy: ban-host-network
     isValidatingAdmissionPolicy: true
     resources:
       - gooddeployment01
       - gooddeployment02
     result: pass
   - kind: Job
-    policy: ban-host-path-usage
+    policy: ban-host-network
     isValidatingAdmissionPolicy: true
     resources:
       - badjob01
-      - badjob02
     result: fail
   - kind: Job
-    policy: ban-host-path-usage
+    policy: ban-host-network
     isValidatingAdmissionPolicy: true
     resources:
       - goodjob01
       - goodjob02
     result: pass
   - kind: Pod
-    policy: ban-host-path-usage
+    policy: ban-host-network
     isValidatingAdmissionPolicy: true
     resources:
       - badpod01
-      - badpod02
     result: fail
   - kind: Pod
-    policy: ban-host-path-usage
+    policy: ban-host-network
     isValidatingAdmissionPolicy: true
     resources:
       - goodpod01

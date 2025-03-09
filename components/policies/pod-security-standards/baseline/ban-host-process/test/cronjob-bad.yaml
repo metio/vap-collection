@@ -1,0 +1,148 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob01
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          hostNetwork: true
+          containers:
+            - name: container01
+              image: dummyimagename
+              securityContext:
+                windowsOptions:
+                  hostProcess: true
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob02
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          hostNetwork: true
+          containers:
+            - name: container01
+              image: dummyimagename
+              securityContext:
+                windowsOptions:
+                  hostProcess: true
+            - name: container02
+              image: dummyimagename
+              securityContext:
+                windowsOptions:
+                  hostProcess: true
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob03
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          hostNetwork: true
+          initContainers:
+            - name: initcontainer01
+              image: dummyimagename
+              securityContext:
+                windowsOptions:
+                  hostProcess: true
+          containers:
+            - name: container01
+              image: dummyimagename
+              securityContext:
+                windowsOptions:
+                  hostProcess: true
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob04
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          hostNetwork: true
+          initContainers:
+            - name: initcontainer01
+              image: dummyimagename
+              securityContext:
+                windowsOptions:
+                  hostProcess: true
+            - name: initcontainer02
+              image: dummyimagename
+              securityContext:
+                windowsOptions:
+                  hostProcess: true
+          containers:
+            - name: container01
+              image: dummyimagename
+              securityContext:
+                windowsOptions:
+                  hostProcess: true
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob05
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          hostNetwork: true
+          initContainers:
+            - name: initcontainer01
+              image: dummyimagename
+              securityContext:
+                windowsOptions:
+                  hostProcess: true
+            - name: initcontainer02
+              image: dummyimagename
+              securityContext:
+                windowsOptions:
+                  hostProcess: true
+          containers:
+            - name: container01
+              image: dummyimagename
+              securityContext:
+                windowsOptions:
+                  hostProcess: true
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob06
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          securityContext:
+            windowsOptions:
+              hostProcess: true
+          containers:
+            - name: container01
+              image: dummyimagename
+---

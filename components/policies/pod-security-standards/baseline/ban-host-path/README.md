@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: The vap-collection Authors
 SPDX-License-Identifier: Apache-2.0
  -->
 
-# ban-host-path-usage
+# ban-host-path
 
 Verifies that pods do not use host paths to mount volumes.
 

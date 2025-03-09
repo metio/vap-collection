@@ -1,0 +1,120 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: badjob01
+spec:
+  template:
+    spec:
+      containers:
+        - name: container01
+          image: dummyimagename
+          securityContext:
+            windowsOptions:
+              hostProcess: true
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: badjob02
+spec:
+  template:
+    spec:
+      containers:
+        - name: container01
+          image: dummyimagename
+          securityContext:
+            windowsOptions:
+              hostProcess: true
+        - name: container02
+          image: dummyimagename
+          securityContext:
+            windowsOptions:
+              hostProcess: true
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: badjob03
+spec:
+  template:
+    spec:
+      initContainers:
+        - name: initcontainer01
+          image: dummyimagename
+          securityContext:
+            windowsOptions:
+              hostProcess: true
+      containers:
+        - name: container01
+          image: dummyimagename
+          securityContext:
+            windowsOptions:
+              hostProcess: true
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: badjob04
+spec:
+  template:
+    spec:
+      initContainers:
+        - name: initcontainer01
+          image: dummyimagename
+          securityContext:
+            windowsOptions:
+              hostProcess: true
+        - name: initcontainer02
+          image: dummyimagename
+          securityContext:
+            windowsOptions:
+              hostProcess: true
+      containers:
+        - name: container01
+          image: dummyimagename
+          securityContext:
+            windowsOptions:
+              hostProcess: true
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: badjob05
+spec:
+  template:
+    spec:
+      initContainers:
+        - name: initcontainer01
+          image: dummyimagename
+          securityContext:
+            windowsOptions:
+              hostProcess: true
+        - name: initcontainer02
+          image: dummyimagename
+          securityContext:
+            windowsOptions:
+              hostProcess: true
+      containers:
+        - name: container01
+          image: dummyimagename
+          securityContext:
+            windowsOptions:
+              hostProcess: true
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: badjob06
+spec:
+  template:
+    spec:
+      securityContext:
+        windowsOptions:
+          hostProcess: true
+      containers:
+        - name: container01
+          image: dummyimagename
+---

@@ -3,9 +3,9 @@
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingAdmissionPolicy
 metadata:
-  name: ban-host-network-usage
+  name: ban-host-path
   labels:
-    app.kubernetes.io/name: ban-host-network-usage
+    app.kubernetes.io/name: ban-host-path
     app.kubernetes.io/component: pod-security-standards-baseline
 spec:
   failurePolicy: Fail
@@ -27,18 +27,19 @@ spec:
         resources:    ["cronjobs", "jobs"]
         scope:        "Namespaced"
   variables:
-    - expression: object.spec.?template.?spec.?hostNetwork.orValue(false)
-      name: controllerHostNetwork
-    - expression: object.spec.?jobTemplate.?spec.?template.?spec.?hostNetwork.orValue(false)
-      name: cronJobHostNetwork
-    - expression: object.spec.?hostNetwork.orValue(false)
-      name: podHostNetwork
+    - expression: object.spec.?template.?spec.?volumes.orValue([])
+      name: controllerVolumes
+    - expression: object.spec.?jobTemplate.?spec.?template.?spec.?volumes.orValue([])
+      name: cronJobVolumes
+    - expression: object.spec.?volumes.orValue([])
+      name: podVolumes
+    - expression: variables.controllerVolumes + variables.cronJobVolumes + variables.podVolumes
+      name: allUsedVolumes
   validations:
     - expression:
-        variables.controllerHostNetwork == false &&
-        variables.cronJobHostNetwork == false &&
-        variables.podHostNetwork == false
-      message: Sharing the host network namespace is forbidden. The field spec.hostNetwork must be unset or set to 'false'
+        variables.allUsedVolumes.all(volume,
+          !has(volume.hostPath))
+      message: HostPath volumes are forbidden. The field spec.volumes[*].hostPath must be unset
       reason: Invalid
   auditAnnotations:
     - key: name

@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ../../base
 components:
+  - ../../components/policies/pod-security-standards/baseline/ban-apparmor-annotation
   - ../../components/policies/pod-security-standards/baseline/ban-host-ipc
   - ../../components/policies/pod-security-standards/baseline/ban-host-network
   - ../../components/policies/pod-security-standards/baseline/ban-host-path

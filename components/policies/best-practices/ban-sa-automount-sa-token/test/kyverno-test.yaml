@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: cli.kyverno.io/v1alpha1
+kind: Test
+metadata:
+  name: ban-sa-automount-sa-token
+policies:
+  - ../policy.yaml
+resources:
+  - serviceaccount-bad.yaml
+  - serviceaccount-good.yaml
+results:
+  - kind: ServiceAccount
+    policy: ban-sa-automount-sa-token
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badserviceaccount01
+      - badserviceaccount02
+    result: fail
+  - kind: ServiceAccount
+    policy: ban-sa-automount-sa-token
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodserviceaccount01
+    result: pass

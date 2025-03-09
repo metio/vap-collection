@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: cli.kyverno.io/v1alpha1
+kind: Test
+metadata:
+  name: ban-external-ip-services
+policies:
+  - ../policy.yaml
+resources:
+  - service-bad.yaml
+  - service-good.yaml
+results:
+  - kind: Service
+    policy: ban-external-ip-services
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badservice01
+    result: fail
+  - kind: Service
+    policy: ban-external-ip-services
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodservice01
+      - goodservice02
+      - goodservice03
+    result: pass

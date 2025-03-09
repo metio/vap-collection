@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: ban-sa-automount-sa-token
+  labels:
+    app.kubernetes.io/name: ban-sa-automount-sa-token
+    app.kubernetes.io/component: best-practices
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups:    [""]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["serviceaccounts"]
+        scope:        "Namespaced"
+  validations:
+    - expression: object.?automountServiceAccountToken.orValue(true) == false
+      message: Automatically mounting service account tokens is forbidden
+      reason: Invalid
+  auditAnnotations:
+    - key: name
+      valueExpression: string(object.metadata.name)

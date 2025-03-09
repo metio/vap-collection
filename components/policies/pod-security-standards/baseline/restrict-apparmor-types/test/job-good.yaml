@@ -1,0 +1,196 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: goodjob01
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: container01
+          image: dummyimagename
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: goodjob02
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: container01
+          image: dummyimagename
+      securityContext:
+        appArmorProfile:
+          type: RuntimeDefault
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: goodjob03
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: container01
+          image: dummyimagename
+      securityContext:
+        appArmorProfile:
+          type: Localhost
+          localhostProfile: operator/default/profile1.json
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: goodjob04
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: container01
+          image: dummyimagename
+          securityContext:
+            appArmorProfile:
+              type: RuntimeDefault
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: goodjob05
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: container01
+          image: dummyimagename
+          securityContext:
+            appArmorProfile:
+              type: Localhost
+              localhostProfile: operator/default/profile1.json
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: goodjob06
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: container01
+          image: dummyimagename
+        - name: container02
+          image: dummyimagename
+          securityContext:
+            appArmorProfile:
+              type: RuntimeDefault
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: goodjob07
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: container01
+          image: dummyimagename
+          securityContext:
+            appArmorProfile:
+              type: Localhost
+              localhostProfile: operator/default/profile1.json
+        - name: container02
+          image: dummyimagename
+          securityContext:
+            appArmorProfile:
+              type: RuntimeDefault
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: goodjob08
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+        - name: initcontainer01
+          image: dummyimagename
+          securityContext:
+            appArmorProfile:
+              type: RuntimeDefault
+      containers:
+        - name: container01
+          image: dummyimagename
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: goodjob09
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+        - name: initcontainer01
+          image: dummyimagename
+          securityContext:
+            appArmorProfile:
+              type: Localhost
+              localhostProfile: operator/default/profile1.json
+      containers:
+        - name: container01
+          image: dummyimagename
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: goodjob10
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+        - name: initcontainer01
+          image: dummyimagename
+        - name: initcontainer02
+          image: dummyimagename
+          securityContext:
+            appArmorProfile:
+              type: RuntimeDefault
+      containers:
+        - name: container01
+          image: dummyimagename
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: goodjob11
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+        - name: initcontainer01
+          image: dummyimagename
+          securityContext:
+            appArmorProfile:
+              type: Localhost
+              localhostProfile: operator/default/profile1.json
+        - name: initcontainer02
+          image: dummyimagename
+          securityContext:
+            appArmorProfile:
+              type: RuntimeDefault
+      containers:
+        - name: container01
+          image: dummyimagename
+---

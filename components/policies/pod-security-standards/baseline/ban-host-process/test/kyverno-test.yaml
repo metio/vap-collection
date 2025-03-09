@@ -3,7 +3,7 @@
 apiVersion: cli.kyverno.io/v1alpha1
 kind: Test
 metadata:
-  name: ban-host-pid-usage
+  name: ban-host-process
 policies:
   - ../policy.yaml
 resources:
@@ -17,54 +17,94 @@ resources:
   - pod-good.yaml
 results:
   - kind: CronJob
-    policy: ban-host-pid-usage
+    policy: ban-host-process
     isValidatingAdmissionPolicy: true
     resources:
       - badcronjob01
+      - badcronjob02
+      - badcronjob03
+      - badcronjob04
+      - badcronjob05
+      - badcronjob06
     result: fail
   - kind: CronJob
-    policy: ban-host-pid-usage
+    policy: ban-host-process
     isValidatingAdmissionPolicy: true
     resources:
       - goodcronjob01
       - goodcronjob02
+      - goodcronjob03
+      - goodcronjob04
+      - goodcronjob05
+      - goodcronjob06
+      - goodcronjob07
     result: pass
   - kind: Deployment
-    policy: ban-host-pid-usage
+    policy: ban-host-process
     isValidatingAdmissionPolicy: true
     resources:
       - baddeployment01
+      - baddeployment02
+      - baddeployment03
+      - baddeployment04
+      - baddeployment05
+      - baddeployment06
     result: fail
   - kind: Deployment
-    policy: ban-host-pid-usage
+    policy: ban-host-process
     isValidatingAdmissionPolicy: true
     resources:
       - gooddeployment01
       - gooddeployment02
+      - gooddeployment03
+      - gooddeployment04
+      - gooddeployment05
+      - gooddeployment06
+      - gooddeployment07
     result: pass
   - kind: Job
-    policy: ban-host-pid-usage
+    policy: ban-host-process
     isValidatingAdmissionPolicy: true
     resources:
       - badjob01
+      - badjob02
+      - badjob03
+      - badjob04
+      - badjob05
+      - badjob06
     result: fail
   - kind: Job
-    policy: ban-host-pid-usage
+    policy: ban-host-process
     isValidatingAdmissionPolicy: true
     resources:
       - goodjob01
       - goodjob02
+      - goodjob03
+      - goodjob04
+      - goodjob05
+      - goodjob06
+      - goodjob07
     result: pass
   - kind: Pod
-    policy: ban-host-pid-usage
+    policy: ban-host-process
     isValidatingAdmissionPolicy: true
     resources:
       - badpod01
+      - badpod02
+      - badpod03
+      - badpod04
+      - badpod05
+      - badpod06
     result: fail
   - kind: Pod
-    policy: ban-host-pid-usage
+    policy: ban-host-process
     isValidatingAdmissionPolicy: true
     resources:
       - goodpod01
       - goodpod02
+      - goodpod03
+      - goodpod04
+      - goodpod05
+      - goodpod06
+      - goodpod07
     result: pass

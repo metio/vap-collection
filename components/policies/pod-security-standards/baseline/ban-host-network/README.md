@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: The vap-collection Authors
 SPDX-License-Identifier: Apache-2.0
  -->
 
-# ban-host-network-usage
+# ban-host-network
 
 Verifies that pods do not use the host network namespace.
 

@@ -3,9 +3,9 @@
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingAdmissionPolicy
 metadata:
-  name: ban-host-pid-usage
+  name: ban-host-pid
   labels:
-    app.kubernetes.io/name: ban-host-pid-usage
+    app.kubernetes.io/name: ban-host-pid
     app.kubernetes.io/component: pod-security-standards-baseline
 spec:
   failurePolicy: Fail

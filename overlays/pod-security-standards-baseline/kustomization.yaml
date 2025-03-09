@@ -5,10 +5,11 @@ kind: Kustomization
 resources:
   - ../../base
 components:
-  - ../../components/policies/pod-security-standards/baseline/ban-host-ipc-usage
-  - ../../components/policies/pod-security-standards/baseline/ban-host-network-usage
-  - ../../components/policies/pod-security-standards/baseline/ban-host-path-usage
-  - ../../components/policies/pod-security-standards/baseline/ban-host-pid-usage
+  - ../../components/policies/pod-security-standards/baseline/ban-host-ipc
+  - ../../components/policies/pod-security-standards/baseline/ban-host-network
+  - ../../components/policies/pod-security-standards/baseline/ban-host-path
+  - ../../components/policies/pod-security-standards/baseline/ban-host-pid
+  - ../../components/policies/pod-security-standards/baseline/ban-host-process
   - ../../components/policies/pod-security-standards/baseline/ban-privileged-containers
   - ../../components/policies/pod-security-standards/baseline/ban-selinux-role
   - ../../components/policies/pod-security-standards/baseline/ban-selinux-user

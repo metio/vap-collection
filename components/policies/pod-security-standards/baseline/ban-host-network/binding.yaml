@@ -3,10 +3,10 @@
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingAdmissionPolicyBinding
 metadata:
-  name: ban-host-network-usage
+  name: ban-host-network
   labels:
-    app.kubernetes.io/name: ban-host-network-usage
+    app.kubernetes.io/name: ban-host-network
     app.kubernetes.io/component: pod-security-standards-baseline
 spec:
-  policyName: ban-host-network-usage
+  policyName: ban-host-network
   validationActions: [Deny]

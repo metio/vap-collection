@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: restrict-apparmor-types
+  labels:
+    app.kubernetes.io/name: restrict-apparmor-types
+    app.kubernetes.io/component: pod-security-standards-baseline
+spec:
+  policyName: restrict-apparmor-types
+  validationActions: [Deny]

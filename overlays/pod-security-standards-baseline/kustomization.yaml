@@ -14,6 +14,7 @@ components:
   - ../../components/policies/pod-security-standards/baseline/ban-privileged-containers
   - ../../components/policies/pod-security-standards/baseline/ban-selinux-role
   - ../../components/policies/pod-security-standards/baseline/ban-selinux-user
+  - ../../components/policies/pod-security-standards/baseline/restrict-apparmor-types
   - ../../components/policies/pod-security-standards/baseline/restrict-container-capabilities
   - ../../components/policies/pod-security-standards/baseline/restrict-proc-mount-type
   - ../../components/policies/pod-security-standards/baseline/restrict-seccomp-profile-types

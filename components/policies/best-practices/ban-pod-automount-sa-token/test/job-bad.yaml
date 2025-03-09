@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: badjob01
+spec:
+  template:
+    spec:
+      automountServiceAccountToken: true
+      containers:
+        - name: container01
+          image: dummyimagename
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: badjob02
+spec:
+  template:
+    spec:
+      containers:
+        - name: container01
+          image: dummyimagename
+---

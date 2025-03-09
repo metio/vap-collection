@@ -1,0 +1,70 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: cli.kyverno.io/v1alpha1
+kind: Test
+metadata:
+  name: ban-pod-automount-sa-token
+policies:
+  - ../policy.yaml
+resources:
+  - cronjob-bad.yaml
+  - cronjob-good.yaml
+  - deployment-bad.yaml
+  - deployment-good.yaml
+  - job-bad.yaml
+  - job-good.yaml
+  - pod-bad.yaml
+  - pod-good.yaml
+results:
+  - kind: CronJob
+    policy: ban-pod-automount-sa-token
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badcronjob01
+      - badcronjob02
+    result: fail
+  - kind: CronJob
+    policy: ban-pod-automount-sa-token
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodcronjob01
+    result: pass
+  - kind: Deployment
+    policy: ban-pod-automount-sa-token
+    isValidatingAdmissionPolicy: true
+    resources:
+      - baddeployment01
+      - baddeployment02
+    result: fail
+  - kind: Deployment
+    policy: ban-pod-automount-sa-token
+    isValidatingAdmissionPolicy: true
+    resources:
+      - gooddeployment01
+    result: pass
+  - kind: Job
+    policy: ban-pod-automount-sa-token
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badjob01
+      - badjob02
+    result: fail
+  - kind: Job
+    policy: ban-pod-automount-sa-token
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodjob01
+    result: pass
+  - kind: Pod
+    policy: ban-pod-automount-sa-token
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badpod01
+      - badpod02
+    result: fail
+  - kind: Pod
+    policy: ban-pod-automount-sa-token
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodpod01
+    result: pass

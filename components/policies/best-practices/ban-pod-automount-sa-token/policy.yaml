@@ -1,0 +1,42 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: ban-pod-automount-sa-token
+  labels:
+    app.kubernetes.io/name: ban-pod-automount-sa-token
+    app.kubernetes.io/component: best-practices
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups:    [""]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["pods"]
+        scope:        "Namespaced"
+      - apiGroups:    ["apps"]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["daemonsets", "deployments", "statefulsets"]
+        scope:        "Namespaced"
+      - apiGroups:    ["batch"]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["cronjobs", "jobs"]
+        scope:        "Namespaced"
+  variables:
+    - expression: object.spec.?template.?spec.?automountServiceAccountToken
+      name: controllerAutomount
+    - expression: object.spec.?jobTemplate.?spec.?template.?spec.?automountServiceAccountToken
+      name: cronJobAutomount
+    - expression: object.spec.?automountServiceAccountToken
+      name: podAutomount
+  validations:
+    - expression: variables.controllerAutomount.or(variables.cronJobAutomount).or(variables.podAutomount).orValue(true) == false
+      message: Automatically mounting service account tokens is forbidden
+      reason: Invalid
+  auditAnnotations:
+    - key: name
+      valueExpression: string(object.metadata.name)

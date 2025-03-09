@@ -6,7 +6,7 @@ metadata:
   name: require-disabled-privilege-escalation
   labels:
     app.kubernetes.io/name: require-disabled-privilege-escalation
-    app.kubernetes.io/component: pod-security-standards-baseline
+    app.kubernetes.io/component: pod-security-standards-restricted
 spec:
   policyName: require-disabled-privilege-escalation
   validationActions: [Deny]

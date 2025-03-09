@@ -18,5 +18,6 @@ All policies are managed with kustomize and can be installed by referencing over
 The following overlays are available in this repository. Feel free to enable as many of them as you like!
 
 - `all`: Contains all policies in this repository
+- `best-practices`: Contains policies for best-practices
 - `pod-security-standards-baseline`: Contains policies for the PSS `baseline`
 - `pod-security-standards-restricted`: Contains policies for the PSS `restricted`

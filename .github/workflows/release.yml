@@ -60,6 +60,7 @@ jobs:
               # use the 'all' overlay to get all available policies
               - https://github.com/metio/vap-collection//overlays/all/?ref=${{ steps.release.outputs.version }}
               # or select individual overlay for specific policies
+              - https://github.com/metio/vap-collection//overlays/best-practices/?ref=${{ steps.release.outputs.version }}
               - https://github.com/metio/vap-collection//overlays/pod-security-standards-baseline/?ref=${{ steps.release.outputs.version }}
               - https://github.com/metio/vap-collection//overlays/pod-security-standards-restricted/?ref=${{ steps.release.outputs.version }}
             ```

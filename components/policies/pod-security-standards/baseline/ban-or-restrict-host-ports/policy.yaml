@@ -1,0 +1,59 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: ban-or-restrict-host-ports
+  labels:
+    app.kubernetes.io/name: ban-or-restrict-host-ports
+    app.kubernetes.io/component: pod-security-standards-baseline
+spec:
+  failurePolicy: Fail
+  paramKind:
+    apiVersion: vap.metio.wtf/v1alpha1
+    kind: AllowedHostPorts
+  matchConstraints:
+    resourceRules:
+      - apiGroups:    [""]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["pods"]
+        scope:        "Namespaced"
+      - apiGroups:    ["apps"]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["daemonsets", "deployments", "statefulsets"]
+        scope:        "Namespaced"
+      - apiGroups:    ["batch"]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["cronjobs", "jobs"]
+        scope:        "Namespaced"
+  variables:
+    - expression:
+        object.spec.?template.?spec.?containers.orValue([]) +
+        object.spec.?template.?spec.?initContainers.orValue([]) +
+        object.spec.?template.?spec.?ephemeralContainers.orValue([])
+      name: controllerContainer
+    - expression:
+        object.spec.?jobTemplate.?spec.?template.?spec.?containers.orValue([]) +
+        object.spec.?jobTemplate.?spec.?template.?spec.?initContainers.orValue([]) +
+        object.spec.?jobTemplate.?spec.?template.?spec.?ephemeralContainers.orValue([])
+      name: cronJobContainers
+    - expression:
+        object.spec.?containers.orValue([]) +
+        object.spec.?initContainers.orValue([]) +
+        object.spec.?ephemeralContainers.orValue([])
+      name: podContainers
+    - expression: variables.controllerContainer + variables.cronJobContainers + variables.podContainers
+      name: allContainers
+  validations:
+    - expression:
+        variables.allContainers.all(container,
+          container.?ports.orValue([]).all(port,
+            !has(port.hostPort) || port.hostPort == 0 || (params != null && port.hostPort in params.allowedPorts)))
+      messageExpression: "'Any capabilities added beyond the allowed list (' + variables.allowedCapabilities.join(', ') + ') are disallowed.'"
+      reason: Invalid
+  auditAnnotations:
+    - key: name
+      valueExpression: string(object.metadata.name)

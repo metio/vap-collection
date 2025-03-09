@@ -1,0 +1,252 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob01
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+              ports:
+                - name: dns
+                  containerPort: 5553
+                  hostPort: 53
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob02
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+              ports:
+                - name: admin
+                  containerPort: 8000
+                  protocol: TCP
+                - name: dns
+                  containerPort: 5553
+                  hostPort: 53
+                  protocol: UDP
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob03
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+            - name: container02
+              image: dummyimagename
+              ports:
+                - name: admin
+                  containerPort: 8000
+                  protocol: TCP
+                - name: dns
+                  containerPort: 5553
+                  hostPort: 53
+                  protocol: UDP
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob04
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+              ports:
+                - name: admin
+                  containerPort: 8000
+                  protocol: TCP
+            - name: container02
+              image: dummyimagename
+              ports:
+                - name: dns
+                  containerPort: 5553
+                  hostPort: 53
+                  protocol: UDP
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob05
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: container01
+              image: dummyimagename
+              ports:
+                - name: web-secure
+                  containerPort: 4443
+                  hostPort: 443
+            - name: container02
+              image: dummyimagename
+              ports:
+                - name: dns
+                  containerPort: 5553
+                  hostPort: 53
+                  protocol: UDP
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob06
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: initcontainer01
+              image: dummyimagename
+          containers:
+            - name: container01
+              image: dummyimagename
+              ports:
+                - name: dns
+                  containerPort: 5553
+                  hostPort: 53
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob07
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: initcontainer01
+              image: dummyimagename
+              ports:
+                - name: admin
+                  containerPort: 8000
+                  protocol: TCP
+          containers:
+            - name: container01
+              image: dummyimagename
+              ports:
+                - name: dns
+                  containerPort: 5553
+                  hostPort: 53
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob08
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: initcontainer01
+              image: dummyimagename
+            - name: initcontainer02
+              image: dummyimagename
+              ports:
+                - name: admin
+                  containerPort: 8000
+                  protocol: TCP
+          containers:
+            - name: container01
+              image: dummyimagename
+              ports:
+                - name: dns
+                  containerPort: 5553
+                  hostPort: 53
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob09
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: initcontainer01
+              image: dummyimagename
+              ports:
+                - name: web
+                  containerPort: 4443
+                  hostPort: 443
+            - name: initcontainer02
+              image: dummyimagename
+              ports:
+                - name: admin
+                  containerPort: 8000
+                  protocol: TCP
+          containers:
+            - name: container01
+              image: dummyimagename
+              ports:
+                - name: dns
+                  containerPort: 5553
+                  hostPort: 53
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: badcronjob10
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: initcontainer01
+              image: dummyimagename
+              ports:
+                - name: dns
+                  containerPort: 5553
+                  hostPort: 53
+          containers:
+            - name: container01
+              image: dummyimagename
+---

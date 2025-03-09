@@ -1,0 +1,23 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: allowedhostports.vap.metio.wtf
+spec:
+  group: vap.metio.wtf
+  scope: Cluster
+  names:
+    plural: allowedhostports
+    singular: allowedhostports
+    kind: AllowedHostPorts
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            allowedPorts:
+              type: array
+              items:
+                type: integer

@@ -10,6 +10,7 @@ components:
   - ../../components/policies/pod-security-standards/baseline/ban-host-path
   - ../../components/policies/pod-security-standards/baseline/ban-host-pid
   - ../../components/policies/pod-security-standards/baseline/ban-host-process
+  - ../../components/policies/pod-security-standards/baseline/ban-or-restrict-host-ports
   - ../../components/policies/pod-security-standards/baseline/ban-privileged-containers
   - ../../components/policies/pod-security-standards/baseline/ban-selinux-role
   - ../../components/policies/pod-security-standards/baseline/ban-selinux-user

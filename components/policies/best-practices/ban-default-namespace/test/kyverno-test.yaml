@@ -1,0 +1,66 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: cli.kyverno.io/v1alpha1
+kind: Test
+metadata:
+  name: ban-default-namespace
+policies:
+  - ../policy.yaml
+resources:
+  - cronjob-bad.yaml
+  - cronjob-good.yaml
+  - deployment-bad.yaml
+  - deployment-good.yaml
+  - job-bad.yaml
+  - job-good.yaml
+  - pod-bad.yaml
+  - pod-good.yaml
+results:
+  - kind: CronJob
+    policy: ban-default-namespace
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badcronjob01
+    result: fail
+  - kind: CronJob
+    policy: ban-default-namespace
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodcronjob01
+    result: pass
+  - kind: Deployment
+    policy: ban-default-namespace
+    isValidatingAdmissionPolicy: true
+    resources:
+      - baddeployment01
+    result: fail
+  - kind: Deployment
+    policy: ban-default-namespace
+    isValidatingAdmissionPolicy: true
+    resources:
+      - gooddeployment01
+    result: pass
+  - kind: Job
+    policy: ban-default-namespace
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badjob01
+    result: fail
+  - kind: Job
+    policy: ban-default-namespace
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodjob01
+    result: pass
+  - kind: Pod
+    policy: ban-default-namespace
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badpod01
+    result: fail
+  - kind: Pod
+    policy: ban-default-namespace
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodpod01
+    result: pass

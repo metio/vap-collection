@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: ban-default-namespace
+  labels:
+    app.kubernetes.io/name: ban-default-namespace
+    app.kubernetes.io/component: best-practices
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups:    [""]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["pods"]
+        scope:        "Namespaced"
+      - apiGroups:    ["apps"]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["daemonsets", "deployments", "statefulsets"]
+        scope:        "Namespaced"
+      - apiGroups:    ["batch"]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["cronjobs", "jobs"]
+        scope:        "Namespaced"
+  validations:
+    - expression: namespaceObject.metadata.name != 'default'
+      message: Using the 'default' namespace is forbidden
+      reason: Invalid
+  auditAnnotations:
+    - key: name
+      valueExpression: string(object.metadata.name)

@@ -1,0 +1,69 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: baddeployment01
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: baddeployment02
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 500m
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: baddeployment03
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: busybox
+          image: busybox
+        - name: nginx
+          image: nginx
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 500m
+            limits:
+              memory: 256Mi
+---

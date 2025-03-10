@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ../../base
 components:
+  - ../../components/policies/best-practices/ban-default-namespace
   - ../../components/policies/best-practices/ban-external-ip-services
   - ../../components/policies/best-practices/ban-localhost-services
   - ../../components/policies/best-practices/ban-nodeport-services

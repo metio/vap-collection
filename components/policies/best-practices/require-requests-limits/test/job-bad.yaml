@@ -1,0 +1,48 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: badjob01
+spec:
+  template:
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: badjob02
+spec:
+  template:
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 500m
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: badjob03
+spec:
+  template:
+    spec:
+      containers:
+        - name: busybox
+          image: busybox
+        - name: nginx
+          image: nginx
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 500m
+            limits:
+              memory: 256Mi
+---

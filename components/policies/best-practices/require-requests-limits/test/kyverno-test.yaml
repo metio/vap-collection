@@ -1,0 +1,78 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: cli.kyverno.io/v1alpha1
+kind: Test
+metadata:
+  name: require-requests-limits
+policies:
+  - ../policy.yaml
+resources:
+  - cronjob-bad.yaml
+  - cronjob-good.yaml
+  - deployment-bad.yaml
+  - deployment-good.yaml
+  - job-bad.yaml
+  - job-good.yaml
+  - pod-bad.yaml
+  - pod-good.yaml
+results:
+  - kind: CronJob
+    policy: require-requests-limits
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badcronjob01
+      - badcronjob02
+      - badcronjob03
+    result: fail
+  - kind: CronJob
+    policy: require-requests-limits
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodcronjob01
+      - goodcronjob02
+    result: pass
+  - kind: Deployment
+    policy: require-requests-limits
+    isValidatingAdmissionPolicy: true
+    resources:
+      - baddeployment01
+      - baddeployment02
+      - baddeployment03
+    result: fail
+  - kind: Deployment
+    policy: require-requests-limits
+    isValidatingAdmissionPolicy: true
+    resources:
+      - gooddeployment01
+      - gooddeployment02
+    result: pass
+  - kind: Job
+    policy: require-requests-limits
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badjob01
+      - badjob02
+      - badjob03
+    result: fail
+  - kind: Job
+    policy: require-requests-limits
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodjob01
+      - goodjob02
+    result: pass
+  - kind: Pod
+    policy: require-requests-limits
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badpod01
+      - badpod02
+      - badpod03
+    result: fail
+  - kind: Pod
+    policy: require-requests-limits
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodpod01
+      - goodpod02
+    result: pass

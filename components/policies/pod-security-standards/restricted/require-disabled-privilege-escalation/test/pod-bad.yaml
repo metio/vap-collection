@@ -81,3 +81,14 @@ spec:
       securityContext:
         allowPrivilegeEscalation: false
 ---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: badpod07
+spec:
+  containers:
+    - name: container01
+      image: dummyimagename
+      securityContext:
+        runAsNonRoot: true
+---

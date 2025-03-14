@@ -47,8 +47,8 @@ spec:
   validations:
     - expression:
         variables.allContainers.all(container,
-          container.?securityContext.allowPrivilegeEscalation.orValue(true) == false)
-      message: Privilege escalation is forbidden. The field securityContext.allowPrivilegeEscalation must set to 'false'
+          container.?securityContext.?allowPrivilegeEscalation.orValue(true) == false)
+      message: Privilege escalation is forbidden. The field securityContext.allowPrivilegeEscalation must be set to 'false'
       reason: Invalid
   auditAnnotations:
     - key: name

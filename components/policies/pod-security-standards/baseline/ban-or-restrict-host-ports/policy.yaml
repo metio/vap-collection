@@ -52,7 +52,7 @@ spec:
         variables.allContainers.all(container,
           container.?ports.orValue([]).all(port,
             !has(port.hostPort) || port.hostPort == 0 || (params != null && port.hostPort in params.allowedPorts)))
-      messageExpression: "'Any capabilities added beyond the allowed list (' + variables.allowedCapabilities.join(', ') + ') are disallowed.'"
+      message: Host ports are forbidden
       reason: Invalid
   auditAnnotations:
     - key: name

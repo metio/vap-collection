@@ -29,6 +29,14 @@ spec:
   variables:
     - expression: "['RuntimeDefault', 'Localhost']"
       name: allowedProfileTypes
+    - expression: object.spec.?template.?spec.?securityContext.?seccompProfile.?type
+      name: controllerSeccompProfileType
+    - expression: object.spec.?jobTemplate.?spec.?template.?spec.?securityContext.?seccompProfile.?type
+      name: cronJobSeccompProfileType
+    - expression: object.spec.?securityContext.?seccompProfile.?type
+      name: podSeccompProfileType
+    - expression: variables.controllerSeccompProfileType.or(variables.cronJobSeccompProfileType).or(variables.podSeccompProfileType)
+      name: allSeccompProfileType
     - expression:
         object.spec.?template.?spec.?containers.orValue([]) +
         object.spec.?template.?spec.?initContainers.orValue([]) +
@@ -48,20 +56,9 @@ spec:
       name: allContainers
   validations:
     - expression:
+        variables.allSeccompProfileType.orValue('Localhost') in variables.allowedProfileTypes &&
         variables.allContainers.all(container,
           container.?securityContext.?seccompProfile.?type.orValue('Localhost') in variables.allowedProfileTypes)
-      messageExpression: "'Any seccomp profile beyond the allowed list (' + variables.allowedProfileTypes.join(', ') + ') are forbidden.'"
-      reason: Invalid
-    - expression:
-        object.spec.?securityContext.?seccompProfile.?type.orValue('Localhost') in variables.allowedProfileTypes
-      messageExpression: "'Any seccomp profile beyond the allowed list (' + variables.allowedProfileTypes.join(', ') + ') are forbidden.'"
-      reason: Invalid
-    - expression:
-        object.spec.?template.?spec.?securityContext.?seccompProfile.?type.orValue('Localhost') in variables.allowedProfileTypes
-      messageExpression: "'Any seccomp profile beyond the allowed list (' + variables.allowedProfileTypes.join(', ') + ') are forbidden.'"
-      reason: Invalid
-    - expression:
-        object.spec.?jobTemplate.?spec.?template.?spec.?securityContext.?seccompProfile.?type.orValue('Localhost') in variables.allowedProfileTypes
       messageExpression: "'Any seccomp profile beyond the allowed list (' + variables.allowedProfileTypes.join(', ') + ') are forbidden.'"
       reason: Invalid
   auditAnnotations:

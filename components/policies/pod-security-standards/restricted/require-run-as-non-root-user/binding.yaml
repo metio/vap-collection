@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: require-run-as-non-root-user
+  labels:
+    app.kubernetes.io/name: require-run-as-non-root-user
+    app.kubernetes.io/component: pod-security-standards-restricted
+spec:
+  policyName: require-run-as-non-root-user
+  validationActions: [Deny]

@@ -1,0 +1,122 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: cli.kyverno.io/v1alpha1
+kind: Test
+metadata:
+  name: require-run-as-non-root-user
+policies:
+  - ../policy.yaml
+resources:
+  - cronjob-bad.yaml
+  - cronjob-good.yaml
+  - deployment-bad.yaml
+  - deployment-good.yaml
+  - job-bad.yaml
+  - job-good.yaml
+  - pod-bad.yaml
+  - pod-good.yaml
+results:
+  - kind: CronJob
+    policy: require-run-as-non-root-user
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badcronjob01
+      - badcronjob02
+      - badcronjob03
+      - badcronjob04
+      - badcronjob05
+      - badcronjob06
+    result: fail
+  - kind: CronJob
+    policy: require-run-as-non-root-user
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodcronjob01
+      - goodcronjob02
+      - goodcronjob03
+      - goodcronjob04
+      - goodcronjob05
+      - goodcronjob06
+      - goodcronjob07
+      - goodcronjob08
+      - goodcronjob09
+      - goodcronjob10
+    result: pass
+  - kind: Deployment
+    policy: require-run-as-non-root-user
+    isValidatingAdmissionPolicy: true
+    resources:
+      - baddeployment01
+      - baddeployment02
+      - baddeployment03
+      - baddeployment04
+      - baddeployment05
+      - baddeployment06
+    result: fail
+  - kind: Deployment
+    policy: require-run-as-non-root-user
+    isValidatingAdmissionPolicy: true
+    resources:
+      - gooddeployment01
+      - gooddeployment02
+      - gooddeployment03
+      - gooddeployment04
+      - gooddeployment05
+      - gooddeployment06
+      - gooddeployment07
+      - gooddeployment08
+      - gooddeployment09
+      - gooddeployment10
+    result: pass
+  - kind: Job
+    policy: require-run-as-non-root-user
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badjob01
+      - badjob02
+      - badjob03
+      - badjob04
+      - badjob05
+      - badjob06
+    result: fail
+  - kind: Job
+    policy: require-run-as-non-root-user
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodjob01
+      - goodjob02
+      - goodjob03
+      - goodjob04
+      - goodjob05
+      - goodjob06
+      - goodjob07
+      - goodjob08
+      - goodjob09
+      - goodjob10
+    result: pass
+  - kind: Pod
+    policy: require-run-as-non-root-user
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badpod01
+      - badpod02
+      - badpod03
+      - badpod04
+      - badpod05
+      - badpod06
+    result: fail
+  - kind: Pod
+    policy: require-run-as-non-root-user
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodpod01
+      - goodpod02
+      - goodpod03
+      - goodpod04
+      - goodpod05
+      - goodpod06
+      - goodpod07
+      - goodpod08
+      - goodpod09
+      - goodpod10
+    result: pass

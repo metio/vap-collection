@@ -7,5 +7,6 @@ resources:
 components:
   - ../../components/policies/pod-security-standards/restricted/only-allow-net-bind-service-capability
   - ../../components/policies/pod-security-standards/restricted/require-disabled-privilege-escalation
+  - ../../components/policies/pod-security-standards/restricted/require-run-as-non-root-user
   - ../../components/policies/pod-security-standards/restricted/require-run-as-nonroot
   - ../../components/kustomizations/common-labels

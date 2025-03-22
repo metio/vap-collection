@@ -1,0 +1,53 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: restrict-volume-types
+  labels:
+    app.kubernetes.io/name: restrict-volume-types
+    app.kubernetes.io/component: pod-security-standards-baseline
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups:    [""]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["pods"]
+        scope:        "Namespaced"
+      - apiGroups:    ["apps"]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["daemonsets", "deployments", "statefulsets"]
+        scope:        "Namespaced"
+      - apiGroups:    ["batch"]
+        apiVersions:  ["v1"]
+        operations:   ["CREATE", "UPDATE"]
+        resources:    ["cronjobs", "jobs"]
+        scope:        "Namespaced"
+  variables:
+    - expression: object.spec.?template.?spec.?volumes.orValue([])
+      name: controllerVolumes
+    - expression: object.spec.?jobTemplate.?spec.?template.?spec.?volumes.orValue([])
+      name: cronJobVolumes
+    - expression: object.spec.?volumes.orValue([])
+      name: podVolumes
+    - expression: variables.controllerVolumes + variables.cronJobVolumes + variables.podVolumes
+      name: allUsedVolumes
+  validations:
+    - expression:
+        variables.allUsedVolumes.all(volume,
+          has(volume.configMap) ||
+          has(volume.csi) ||
+          has(volume.downwardAPI) ||
+          has(volume.emptyDir) ||
+          has(volume.ephemeral) ||
+          has(volume.persistentVolumeClaim) ||
+          has(volume.projected) ||
+          has(volume.secret))
+      message: 'Only the following types of volumes may be used: configMap, csi, downwardAPI, emptyDir, ephemeral, persistentVolumeClaim, projected, and secret.'
+      reason: Invalid
+  auditAnnotations:
+    - key: name
+      valueExpression: string(object.metadata.name)

@@ -1,0 +1,170 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goodpod01
+spec:
+  containers:
+    - name: container01
+      image: dummyimagename
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goodpod02
+spec:
+  containers:
+    - name: container01
+      image: dummyimagename
+  securityContext:
+    seccompProfile:
+      localhostProfile: operator/default/profile1.json
+      type: Localhost
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goodpod03
+spec:
+  containers:
+    - name: container01
+      image: dummyimagename
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goodpod04
+spec:
+  containers:
+    - name: container01
+      image: dummyimagename
+      securityContext:
+        seccompProfile:
+          type: Localhost
+          localhostProfile: operator/default/profile1.json
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goodpod05
+spec:
+  containers:
+    - name: container01
+      image: dummyimagename
+    - name: container02
+      image: dummyimagename
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+  securityContext:
+    seccompProfile:
+      type: Localhost
+      localhostProfile: operator/default/profile1.json
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goodpod06
+spec:
+  containers:
+    - name: container01
+      image: dummyimagename
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+    - name: container02
+      image: dummyimagename
+      securityContext:
+        seccompProfile:
+          type: Localhost
+          localhostProfile: operator/default/profile1.json
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goodpod07
+spec:
+  initContainers:
+    - name: initcontainer01
+      image: dummyimagename
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+  containers:
+    - name: container01
+      image: dummyimagename
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goodpod08
+spec:
+  initContainers:
+    - name: initcontainer01
+      image: dummyimagename
+      securityContext:
+        seccompProfile:
+          type: Localhost
+          localhostProfile: operator/default/profile1.json
+  containers:
+    - name: container01
+      image: dummyimagename
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goodpod09
+spec:
+  initContainers:
+    - name: initcontainer01
+      image: dummyimagename
+    - name: initcontainer02
+      image: dummyimagename
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+  containers:
+    - name: container01
+      image: dummyimagename
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goodpod10
+spec:
+  initContainers:
+    - name: initcontainer01
+      image: dummyimagename
+      securityContext:
+        seccompProfile:
+          type: Localhost
+          localhostProfile: operator/default/profile1.json
+    - name: initcontainer02
+      image: dummyimagename
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+  containers:
+    - name: container01
+      image: dummyimagename
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+---

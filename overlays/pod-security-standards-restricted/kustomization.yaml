@@ -9,4 +9,5 @@ components:
   - ../../components/policies/pod-security-standards/restricted/require-disabled-privilege-escalation
   - ../../components/policies/pod-security-standards/restricted/require-run-as-non-root-user
   - ../../components/policies/pod-security-standards/restricted/require-run-as-nonroot
+  - ../../components/policies/pod-security-standards/restricted/require-seccomp-profile-type
   - ../../components/kustomizations/common-labels

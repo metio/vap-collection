@@ -1,0 +1,131 @@
+# SPDX-FileCopyrightText: The vap-collection Authors
+# SPDX-License-Identifier: Apache-2.0
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: badjob01
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: container01
+          image: dummyimagename
+      securityContext:
+        seccompProfile:
+          type: Unconfined
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: badjob02
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: container01
+          image: dummyimagename
+          securityContext:
+            seccompProfile:
+              type: Unconfined
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: badjob03
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: container01
+          image: dummyimagename
+        - name: container02
+          image: dummyimagename
+          securityContext:
+            seccompProfile:
+              type: Unconfined
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: badjob04
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: container01
+          image: dummyimagename
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+        - name: container02
+          image: dummyimagename
+          securityContext:
+            seccompProfile:
+              type: Unconfined
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: badjob05
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+        - name: initcontainer01
+          image: dummyimagename
+          securityContext:
+            seccompProfile:
+              type: Unconfined
+      containers:
+        - name: container01
+          image: dummyimagename
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: badjob06
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+        - name: initcontainer01
+          image: dummyimagename
+        - name: initcontainer02
+          image: dummyimagename
+          securityContext:
+            seccompProfile:
+              type: Unconfined
+      containers:
+        - name: container01
+          image: dummyimagename
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: badjob07
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+        - name: initcontainer01
+          image: dummyimagename
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+        - name: initcontainer02
+          image: dummyimagename
+          securityContext:
+            seccompProfile:
+              type: Unconfined
+      containers:
+        - name: container01
+          image: dummyimagename
+---

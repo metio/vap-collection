@@ -29,6 +29,7 @@ results:
     isValidatingAdmissionPolicy: true
     resources:
       - goodconfigmap01
+    result: pass
   - kind: CronJob
     policy: ban-default-namespace
     isValidatingAdmissionPolicy: true

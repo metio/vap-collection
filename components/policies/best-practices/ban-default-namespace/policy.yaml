@@ -13,22 +13,12 @@ spec:
     resourceRules:
       - apiGroups:    [""]
         apiVersions:  ["v1"]
-        operations:   ["CREATE", "UPDATE"]
-        resources:    ["pods"]
-        scope:        "Namespaced"
-      - apiGroups:    ["apps"]
-        apiVersions:  ["v1"]
-        operations:   ["CREATE", "UPDATE"]
-        resources:    ["daemonsets", "deployments", "statefulsets"]
-        scope:        "Namespaced"
-      - apiGroups:    ["batch"]
-        apiVersions:  ["v1"]
-        operations:   ["CREATE", "UPDATE"]
-        resources:    ["cronjobs", "jobs"]
+        operations:   ["CREATE"]
+        resources:    ["*"]
         scope:        "Namespaced"
   validations:
     - expression: namespaceObject.metadata.name != 'default'
-      message: Using the 'default' namespace is forbidden
+      message: You must not use the default namespace.
       reason: Invalid
   auditAnnotations:
     - key: name

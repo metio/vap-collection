@@ -7,6 +7,8 @@ metadata:
 policies:
   - ../policy.yaml
 resources:
+  - configmap-bad.yaml
+  - configmap-good.yaml
   - cronjob-bad.yaml
   - cronjob-good.yaml
   - deployment-bad.yaml
@@ -16,6 +18,17 @@ resources:
   - pod-bad.yaml
   - pod-good.yaml
 results:
+  - kind: ConfigMap
+    policy: ban-default-namespace
+    isValidatingAdmissionPolicy: true
+    resources:
+      - badconfigmap01
+    result: fail
+  - kind: ConfigMap
+    policy: ban-default-namespace
+    isValidatingAdmissionPolicy: true
+    resources:
+      - goodconfigmap01
   - kind: CronJob
     policy: ban-default-namespace
     isValidatingAdmissionPolicy: true
